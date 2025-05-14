@@ -8,7 +8,8 @@ type ArmorEntry= {
 }
 
 const parseArmorCSV = () => {
-    return parseCSV<ArmorEntry>(armorData).map((entry => {
+    const records = parseCSV<ArmorEntry>(armorData);
+    return records.map((entry => {
         const _entry = {
             name: entry.name,
             code: entry.code,

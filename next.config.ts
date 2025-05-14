@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
     rules: {
       '*.txt': {
         loaders: ['raw-loader'],
-        as: 'string'
+        as: '*.js'
       }
     }
   },
