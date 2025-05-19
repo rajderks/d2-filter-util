@@ -2,6 +2,17 @@
 // Item Groups (mainly used in ItemDisplay)
 ///////////////////////////////////////////////////
 
+export enum CharacterClass {
+  CLASS_AMA = 0,
+  CLASS_SOR,
+  CLASS_NEC,
+  CLASS_PAL,
+  CLASS_BAR,
+  CLASS_DRU,
+  CLASS_ASN,
+  CLASS_NA,
+}
+
 // Base
 export const ITEM_GROUP_NORMAL = 0x00000001;
 export const ITEM_GROUP_EXCEPTIONAL = 0x00000002;
