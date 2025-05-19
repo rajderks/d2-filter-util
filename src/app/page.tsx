@@ -1,10 +1,14 @@
+import { utilParse } from "@/util/parse.util";
 import parseArmorCSV from "@/util/parse.armor";
 import parseMiscCSV from "@/util/parse.misc";
+import parseWeaponCSV from "@/util/parse.weapon";
 import parseFilter from "@/util/parseFilter";
 
 export default function Home() {
+  utilParse();
   const armors = parseArmorCSV();
   const misc = parseMiscCSV();
+  const weapons = parseWeaponCSV();
   console.log(armors);
   console.log(misc);
   /*

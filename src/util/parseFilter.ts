@@ -138,10 +138,7 @@ const parseFilterGroups = (part: string): FilterGroup[] => {
 const parseFilter = (line: string) => {
     const split = seperateItemFromDisplay(line);
     const filterGroups = parseFilterGroups(split[0]);
-    console.warn('FILTERGROUPS', filterGroups);
-
-    // const ids = parseItemIds(split[0]);
-    // console.warn('ids', ids);
+    
     return {
         groups: filterGroups,
         _split0: split[0],  
