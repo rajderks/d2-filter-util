@@ -35,8 +35,9 @@ export const findAncestorTypes = (
 
 const getItemTypeMaps = () => {
   const itemTypeRecords = parseCSV<ItemTypeEntry>(itemTypeData);
-  itemTypeRecords.forEach((_entry) => {
+  itemTypeRecords.forEach((_entry, index) => {
     if (_entry.Code?.length) {
+      console.warn(_entry.Code, index);
       throwableMap.set(_entry.Code, _entry.Throwable);
       bodyLocMap.set(_entry.Code, _entry.BodyLoc1);
 

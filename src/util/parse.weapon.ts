@@ -73,7 +73,6 @@ const parseWeaponCSV = () => {
     const ancestorTypes: Set<string> = new Set();
     findAncestorTypes(entry.type, ancestorTypes);
     const throwable = isItemTypeThrowable(entry.type);
-    console.warn("stront", ancestorTypes, entry.code, entry.name);
 
     let baseFlags = 0;
     let weaponFlags = ITEM_GROUP_ALLWEAPON;
