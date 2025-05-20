@@ -1,5 +1,4 @@
 import {
-  CharacterClass,
   ITEM_GROUP_ALLMACE,
   ITEM_GROUP_ALLWEAPON,
   ITEM_GROUP_AXE,
@@ -44,17 +43,13 @@ import {
   getItemTypeMap,
   isClassItem,
   isItemTypeThrowable,
+  ItemEntry,
   ItemTypeEntry,
   staffModsToClass,
 } from "./parse.util";
 import parseCSV from "./parseCSV";
 
-type WeaponEntry = {
-  baseFlags: number;
-  weaponFlags: number;
-  code: string;
-  name: string;
-  type: string;
+type WeaponEntry = ItemEntry & {
   spawnable: number;
   mindam: number;
   maxdam: number;
@@ -64,19 +59,9 @@ type WeaponEntry = {
   speed: number;
   reqstr: number;
   reqdex: number;
-  level: number;
-  magicLevel: number;
-  levelreq: number;
-  normcode: string;
-  ultracode: string;
-  ubercode: string;
   wclass: string;
   staffMods: string;
-  staffmodClass: CharacterClass;
   "2handedwclass": string;
-  stackable: number;
-  useable: number;
-  throwable: number;
 };
 
 const parseWeaponCSV = () => {
@@ -144,6 +129,8 @@ const parseWeaponCSV = () => {
     const _entry: WeaponEntry = {
       baseFlags,
       weaponFlags,
+      miscFlags: 0,
+      armorFlags: 0,
       name: entry.name,
       code: entry.code,
       type: entry.type,

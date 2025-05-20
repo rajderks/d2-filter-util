@@ -20,6 +20,26 @@ import {
   ITEM_TYPE_SORCERESS,
 } from "@/util/Constants";
 
+export type ItemEntry = {
+  code: string;
+  name: string;
+  type: string;
+  normcode: string;
+  ultracode: string;
+  ubercode: string;
+  level: number;
+  levelreq: number;
+  magicLevel?: number;
+  baseFlags: number;
+  armorFlags: number;
+  weaponFlags: number;
+  miscFlags: number;
+  stackable: number;
+  useable: number;
+  throwable: number;
+  staffmodClass: CharacterClass;
+};
+
 export type ItemTypeEntry = {
   Code: string;
   Throwable: number;

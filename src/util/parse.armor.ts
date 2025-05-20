@@ -6,6 +6,7 @@ import {
   getBodyLocMap,
   getItemTypeMap,
   isClassItem,
+  ItemEntry,
   ItemTypeEntry,
   staffModsToClass,
 } from "./parse.util";
@@ -16,7 +17,6 @@ import {
   BODY_LOCATION_GLOVES,
   BODY_LOCATION_HEAD,
   BODY_LOCATION_LSECONDARY,
-  CharacterClass,
   ITEM_GROUP_ALLARMOR,
   ITEM_GROUP_BELT,
   ITEM_GROUP_BODY_ARMOR,
@@ -33,23 +33,10 @@ import {
   ITEM_TYPE_CIRCLET,
 } from "@/util/Constants";
 
-type ArmorEntry = {
-  code: string;
-  name: string;
-  type: string;
-  normcode: string;
-  ultracode: string;
-  ubercode: string;
+type ArmorEntry = ItemEntry & {
   reqstr: number;
-  level: number;
-  levelreq: number;
   minac: number;
   maxac: number;
-  useable: number;
-  stackable: number;
-  baseFlags: number;
-  armorFlags: number;
-  staffmodClass: CharacterClass;
 };
 
 const parseArmorCSV = () => {
@@ -110,102 +97,16 @@ const parseArmorCSV = () => {
       minac: entry.minac,
       maxac: entry.maxac,
       useable: entry.useable,
+      throwable: 0,
       stackable: entry.stackable,
       baseFlags,
       armorFlags,
+      miscFlags: 0,
+      weaponFlags: 0,
       staffmodClass: staffModsToClass(itemTypeEntry?.StaffMods ?? ""),
     };
     return _entry;
   });
 };
-
-/*
-void GetArmorAttributes()
- {
-     D2ItemDataTbl* pItemDataTables = D2COMMON_10535_DATATBLS_GetItemDataTables();
- 
-     for (auto d = 0; d < pItemDataTables->nArmorTxtRecordCount; d++)
-     {
-         ItemsTxt* pArmor = &pItemDataTables->pArmor[d];
-         D2ItemTypesTxt* pItemTypesTxtRecord = NULL;
-         if (pArmor->nType >= 0 && pArmor->nType < pItemDataTables->nItemsTxtRecordCount)
-         {
-             pItemTypesTxtRecord = &(*p_D2COMMON_sgptDataTable)->pItemsTypeTxt[pArmor->nType];
-         }
-         BYTE stackable = pArmor->bstackable > 0 ? pArmor->bstackable : 0;
-         BYTE useable = pArmor->buseable > 0 ? pArmor->buseable : 0;
-         BYTE throwable = throwableMap[pArmor->nType] > 0 ? throwableMap[pArmor->nType] : 0; // Hey, you never know
-         unsigned int baseFlags = 0, armorFlags = ITEM_GROUP_ALLARMOR;
- 
-         std::set<WORD> ancestorTypes;
-         FindAncestorTypes(pArmor->nType, ancestorTypes, parentMap1, parentMap2);
- 
-         if (pArmor->dwcode == pArmor->dwultracode)
-         {
-             baseFlags |= ITEM_GROUP_ELITE;
-         }
-         else if (pArmor->dwcode == pArmor->dwubercode)
-         {
-             baseFlags |= ITEM_GROUP_EXCEPTIONAL;
-         }
-         else
-         {
-             baseFlags |= ITEM_GROUP_NORMAL;
-         }
- 
-         if (ancestorTypes.find(ITEM_TYPE_CIRCLET) != ancestorTypes.end())
-         {
-             armorFlags |= ITEM_GROUP_CIRCLET;  // TODO: This kinda seems like it should be separate
-         }
-         else if (bodyLocMap[pArmor->nType] == EQUIP_HEAD)
-         {
-             armorFlags |= ITEM_GROUP_HELM;
-         }
-         else if (bodyLocMap[pArmor->nType] == EQUIP_BODY)
-         {
-             armorFlags |= ITEM_GROUP_BODY_ARMOR;
-         }
-         else if (bodyLocMap[pArmor->nType] == EQUIP_GLOVES)
-         {
-             armorFlags |= ITEM_GROUP_GLOVES;
-         }
-         else if (bodyLocMap[pArmor->nType] == EQUIP_FEET)
-         {
-             armorFlags |= ITEM_GROUP_BOOTS;
-         }
-         else if (bodyLocMap[pArmor->nType] == EQUIP_BELT)
-         {
-             armorFlags |= ITEM_GROUP_BELT;
-         }
-         else if (bodyLocMap[pArmor->nType] == EQUIP_RIGHT_PRIMARY && ancestorTypes.find(ITEM_TYPE_ALLSHIELD) != ancestorTypes.end())
-         {
-             armorFlags |= ITEM_GROUP_SHIELD;
-         }
- 
-         armorFlags = AssignClassFlags(pArmor->nType, ancestorTypes, armorFlags);
-         if (IsClassItem(0, armorFlags))
-         {
-             baseFlags |= ITEM_GROUP_CLASS;
-         }
- 
-         ItemAttributes* attrs = new ItemAttributes();
-         attrs->name = UnicodeToAnsi(GetTblEntryByIndex(pArmor->wnamestr, TBLOFFSET_STRING));
-         attrs->category = pArmor->nType;
-         attrs->width = 0;
-         attrs->height = 0;
-         attrs->stackable = stackable;
-         attrs->useable = useable;
-         attrs->throwable = throwable;
-         attrs->baseFlags = baseFlags;
-         attrs->weaponFlags = 0;
-         attrs->armorFlags = armorFlags;
-         attrs->miscFlags = 0;
-         attrs->qualityLevel = pArmor->blevel;
-         attrs->magicLevel = pArmor->bmagiclvl;
-         attrs->staffmodClass = pItemTypesTxtRecord ? pItemTypesTxtRecord->nStaffMods : 255;
-         ItemAttributeMap[GetTxtItemCode(pArmor)] = attrs;
-     }
- }
-*/
 
 export default parseArmorCSV;
