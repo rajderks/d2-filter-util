@@ -18,7 +18,7 @@ import {
   ITEM_TYPE_NECROMANCER,
   ITEM_TYPE_PALADIN,
   ITEM_TYPE_SORCERESS,
-} from "@/data/Constants";
+} from "@/util/Constants";
 
 export type ItemTypeEntry = {
   Code: string;
@@ -60,7 +60,7 @@ const parseItemTypeMaps = () => {
     if (_entry.Code?.length) {
       itemTypeMap.set(_entry.Code, _entry);
       throwableMap.set(_entry.Code, _entry.Throwable);
-      bodyLocMap.set(_entry.Code, _entry.BodyLoc1);
+      if (_entry.BodyLoc1?.length) bodyLocMap.set(_entry.Code, _entry.BodyLoc1);
 
       if (_entry.Equiv1?.length) {
         parentMap1.set(_entry.Code, _entry.Equiv1);
@@ -73,7 +73,7 @@ const parseItemTypeMaps = () => {
 };
 
 export const isItemTypeThrowable = (itemTypeCode: ItemTypeEntry["Code"]) => {
-  return throwableMap.get(itemTypeCode) ?? 0;
+  return throwableMap.has(itemTypeCode) ? 1 : 0;
 };
 
 export const assignClassFlags = (
@@ -126,10 +126,11 @@ export const isClassItem = (weaponFlags: number, armorFlags: number) => {
   );
 };
 
-export const getItemTypeMap = () => {
-  return itemTypeMap;
-};
+export const getBodyLocMap = () => bodyLocMap;
+
+export const getItemTypeMap = () => itemTypeMap;
 
 export const utilParse = () => {
   parseItemTypeMaps();
+  console.warn("bodyloc", bodyLocMap);
 };

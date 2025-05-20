@@ -184,3 +184,18 @@ export const ITEM_TYPE_GEN_RUNE = "rung";
 export const ITEM_TYPE_PVP_MAP_MOOR = "pvpm";
 export const ITEM_TYPE_T5_MAP = "t5m";
 export const ITEM_TYPE_PVP_MAP_DESERT = "pvpd";
+
+// export const BODY_LOCATION_NONE = "";
+export const BODY_LOCATION_HEAD = "head";
+export const BODY_LOCATION_AMULET = "amul";
+export const BODY_LOCATION_BODY = "tors";
+export const BODY_LOCATION_RPRIMARY = "larm";
+export const BODY_LOCATION_RSECONDARY = "rarm";
+export const BODY_LOCATION_RRING = "rrin";
+export const BODY_LOCATION_LRING = "lrin";
+export const BODY_LOCATION_BELT = "belt";
+export const BODY_LOCATION_FEET = "feet";
+export const BODY_LOCATION_GLOVES = "glov";
+
+export const BODY_LOCATION_LPRIMARY = "larm";
+export const BODY_LOCATION_LSECONDARY = "rarm";

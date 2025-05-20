@@ -12,6 +12,7 @@ import {
   ITEM_GROUP_EXCEPTIONAL,
   ITEM_GROUP_HAMMER,
   ITEM_GROUP_JAVELIN,
+  ITEM_GROUP_NORMAL,
   ITEM_GROUP_POLEARM,
   ITEM_GROUP_SCEPTER,
   ITEM_GROUP_SPEAR,
@@ -35,13 +36,15 @@ import {
   ITEM_TYPE_SWORD,
   ITEM_TYPE_THROWN,
   ITEM_TYPE_WAND,
-} from "@/data/Constants";
+} from "@/util/Constants";
 import weapData from "../data/Weapons.txt";
 import {
   assignClassFlags,
   findAncestorTypes,
+  getItemTypeMap,
   isClassItem,
   isItemTypeThrowable,
+  ItemTypeEntry,
   staffModsToClass,
 } from "./parse.util";
 import parseCSV from "./parseCSV";
@@ -62,6 +65,7 @@ type WeaponEntry = {
   reqstr: number;
   reqdex: number;
   level: number;
+  magicLevel: number;
   levelreq: number;
   normcode: string;
   ultracode: string;
@@ -70,7 +74,6 @@ type WeaponEntry = {
   staffMods: string;
   staffmodClass: CharacterClass;
   "2handedwclass": string;
-  gemsockets: number;
   stackable: number;
   useable: number;
   throwable: number;
@@ -80,9 +83,9 @@ const parseWeaponCSV = () => {
   const records = parseCSV<WeaponEntry>(weapData);
   return records.map((entry) => {
     const ancestorTypes: Set<string> = new Set();
-    // const itemTypeEntry: ItemTypeEntry | undefined = getItemTypeMap().get(
-    //   entry.type
-    // );
+    const itemTypeEntry: ItemTypeEntry | undefined = getItemTypeMap().get(
+      entry.type
+    );
     findAncestorTypes(entry.type, ancestorTypes);
     const throwable = isItemTypeThrowable(entry.type);
 
@@ -93,6 +96,8 @@ const parseWeaponCSV = () => {
       baseFlags |= ITEM_GROUP_ELITE;
     } else if (entry.code === entry.ubercode) {
       baseFlags |= ITEM_GROUP_EXCEPTIONAL;
+    } else {
+      baseFlags |= ITEM_GROUP_NORMAL;
     }
 
     if (ancestorTypes.has(ITEM_TYPE_CLUB)) {
@@ -152,15 +157,16 @@ const parseWeaponCSV = () => {
       reqstr: entry.reqstr,
       reqdex: entry.reqdex,
       level: entry.level,
+      // @ts-expect-error space in name
+      magicLevel: entry["magic lvl"],
       levelreq: entry.levelreq,
       normcode: entry.normcode,
       ultracode: entry.ultracode,
       ubercode: entry.ubercode,
       wclass: entry.wclass,
       ["2handedwclass"]: entry["2handedwclass"],
-      gemsockets: entry.gemsockets,
       staffMods: entry.staffMods,
-      staffmodClass: staffModsToClass(entry.staffMods),
+      staffmodClass: staffModsToClass(itemTypeEntry?.StaffMods ?? ""),
       stackable: entry.stackable,
       useable: entry.useable,
       throwable,

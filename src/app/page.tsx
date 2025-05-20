@@ -11,6 +11,7 @@ export default function Home() {
   const weapons = parseWeaponCSV();
   console.log(armors);
   console.log(misc);
+  console.log(weapons);
   /*
 ItemDisplay[rvs]: %PURPLE%r %WHITE%35%
 ItemDisplay[(7ws OR 9ws OR wsp) RARE !ETH !ID CLVL<86]: %YELLOW%%NAME%
